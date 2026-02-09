@@ -21,51 +21,41 @@
         .login-btn { background: transparent; border: 1px solid var(--accent-blue); color: var(--accent-blue); padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase; text-decoration: none; transition: 0.3s; }
         .login-btn:hover { background: var(--accent-blue); color: black; box-shadow: 0 0 20px var(--accent-blue); }
 
-        /* --- ANA SAYFA (GİRİŞ ÖNCESİ) --- */
+        /* --- ANA SAYFA --- */
         #main-view { margin-top: 120px; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .player-wrapper { width: 80%; max-width: 1000px; aspect-ratio: 16 / 9; background: #000; border: 1px solid #333; border-radius: 10px; box-shadow: 0 0 50px rgba(226, 54, 54, 0.2); }
         iframe { width: 100%; height: 100%; border-radius: 10px; }
 
-        /* --- YÜKLENİYOR EKRANI (ANİMASYONLU) --- */
+        /* --- YÜKLENİYOR EKRANI --- */
         #loading-screen { 
             position: fixed; inset: 0; background: #000; z-index: 9999; 
             display: none; flex-direction: column; align-items: center; justify-content: center; 
-            opacity: 0; transition: opacity 1s ease-in-out; 
+            opacity: 0; transition: opacity 0.8s ease; 
         }
-        .spinner { 
-            width: 80px; height: 80px; border: 5px solid rgba(255,255,255,0.1); 
-            border-top: 5px solid var(--marvel-red); border-radius: 50%; 
-            animation: spin 1s linear infinite; margin-bottom: 25px; 
-        }
+        .spinner { width: 80px; height: 80px; border: 5px solid rgba(255,255,255,0.1); border-top: 5px solid var(--marvel-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 25px; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .load-text { 
-            font-family: 'Oswald'; font-size: 1.5rem; letter-spacing: 8px; 
-            text-transform: uppercase; color: var(--marvel-red); 
-            animation: pulse 2s infinite; 
-        }
-        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+        .load-text { font-family: 'Oswald'; font-size: 1.5rem; letter-spacing: 5px; text-transform: uppercase; color: var(--marvel-red); }
 
-        /* --- FİLM PORTALI (DİKEY KARTLAR) --- */
-        #portal-view { display: none; padding: 120px 30px 30px; min-height: 100vh; background: #050505; text-align: center; }
-        .card-row { display: flex; width: 100%; height: 500px; gap: 15px; max-width: 1200px; margin: 0 auto; }
+        /* --- PORTAL (DİKEY KARTLAR) --- */
+        #portal-view { display: none; padding: 120px 20px 40px; min-height: 100vh; background: #050505; text-align: center; }
+        .card-row { display: flex; width: 100%; height: 500px; gap: 10px; max-width: 1100px; margin: 0 auto; }
         .m-card { 
-            flex: 1; border-radius: 15px; border: 1px solid #222; cursor: pointer;
-            background-size: cover; background-position: center; transition: 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-            position: relative; overflow: hidden;
+            flex: 1; border-radius: 15px; border: 1px solid #333; cursor: pointer;
+            background-size: cover; background-position: center; transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .m-card:hover { flex: 3.5; border-color: var(--marvel-red); box-shadow: 0 0 40px rgba(226, 54, 54, 0.5); }
+        .m-card:hover { flex: 4; border-color: var(--marvel-red); box-shadow: 0 0 30px var(--marvel-red); }
         
-        /* Film Görselleri (Çalışan Linklerle Güncellendi) */
-        #c1 { background-image: url('https://image.tmdb.org/t/p/original/voHUQ7vYvU0pneT6p9m9vXvS6u2.jpg'); } /* Loki */
-        #c2 { background-image: url('https://image.tmdb.org/t/p/original/u699S0Yv3pxu9oAb3kv9YpZ489K.jpg'); } /* Dr Strange */
-        #c3 { background-image: url('https://image.tmdb.org/t/p/original/or06vS3ST0Pgp36C0B3G07JWZzS.jpg'); } /* Avengers */
-        #c4 { background-image: url('https://image.tmdb.org/t/p/original/r2J0VvUv9Anj21pS7IIbhGudC1X.jpg'); } /* Guardians */
-        #c5 { background-image: url('https://image.tmdb.org/t/p/original/87S8pS_tS80X3Yf1YlI88789IUl.jpg'); } /* Deadpool */
+        /* GÜNCELLENMİŞ GARANTİ LİNKLER */
+        #c1 { background-image: url('https://image.tmdb.org/t/p/w500/voHUQ7vYvU0pneT6p9m9vXvS6u2.jpg'); } /* Loki */
+        #c2 { background-image: url('https://image.tmdb.org/t/p/w500/u699S0Yv3pxu9oAb3kv9YpZ489K.jpg'); } /* Dr Strange */
+        #c3 { background-image: url('https://image.tmdb.org/t/p/w500/or06vS3ST0Pgp36C0B3G07JWZzS.jpg'); } /* Avengers */
+        #c4 { background-image: url('https://image.tmdb.org/t/p/w500/r2J0VvUv9Anj21pS7IIbhGudC1X.jpg'); } /* Guardians */
+        #c5 { background-image: url('https://image.tmdb.org/t/p/w500/87S8pS_tS80X3Yf1YlI88789IUl.jpg'); } /* Deadpool */
 
-        /* --- VİDEO PLAYER --- */
+        /* --- PLAYER --- */
         #player-wrapper { position: fixed; inset: 0; background: #000; display: none; z-index: 10000; }
         video { width: 100%; height: 100%; }
-        .exit-btn { position: absolute; top: 20px; left: 20px; color: white; background: var(--marvel-red); padding: 12px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; font-family: 'Oswald'; z-index: 10001; }
+        .exit-btn { position: absolute; top: 20px; left: 20px; color: white; background: var(--marvel-red); padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; z-index: 10001; }
     </style>
 </head>
 <body>
@@ -79,19 +69,19 @@
         <div class="player-wrapper">
             <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
         </div>
-        <h2 style="margin-top:20px; font-family:'Oswald'; letter-spacing: 2px;">MULTIVERSE GİRİŞ PROTOKOLÜ</h2>
+        <h2 style="margin-top:20px; font-family:'Oswald';">MULTIVERSE GİRİŞ PROTOKOLÜ</h2>
     </div>
 
     <div id="loading-screen">
         <div class="spinner"></div>
-        <div class="load-text" id="load-status">BAĞLANTI KURULUYOR</div>
+        <div class="load-text" id="status-text">BAĞLANTI KURULUYOR</div>
     </div>
 
     <div id="portal-view">
-        <h1 style="font-family:'Oswald'; color:var(--marvel-red); margin-bottom:40px; letter-spacing: 3px;">MULTIVERSE ERİŞİMİ AKTİF</h1>
+        <h1 style="font-family:'Oswald'; color:var(--marvel-red); margin-bottom:30px;">MULTIVERSE ERİŞİMİ AKTİF</h1>
         <div class="card-row">
             <div class="m-card" id="c1" onclick="watchMovie('Loki')"></div>
-            <div class="m-card" id="c2" onclick="watchMovie('Doctor Strange')"></div>
+            <div class="m-card" id="c2" onclick="watchMovie('Dr. Strange')"></div>
             <div class="m-card" id="c3" onclick="watchMovie('Avengers')"></div>
             <div class="m-card" id="c4" onclick="watchMovie('Guardians')"></div>
             <div class="m-card" id="c5" onclick="watchMovie('Deadpool')"></div>
@@ -99,49 +89,42 @@
     </div>
 
     <div id="player-wrapper">
-        <div class="exit-btn" onclick="closePlayer()">← PORTALDAN ÇIK</div>
-        <video id="video-player" controls playsinline></video>
+        <div class="exit-btn" onclick="closePlayer()">← GERİ DÖN</div>
+        <video id="video-player" controls></video>
     </div>
 
     <script>
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('code')) {
-                // Giriş yapıldıysa: Ana sayfayı kapat, Portalı aç, Butonu sil
                 document.getElementById('main-view').style.display = 'none';
                 document.getElementById('nav-login-btn').style.display = 'none';
                 document.getElementById('portal-view').style.display = 'block';
             }
         };
 
-        function watchMovie(movieName) {
+        function watchMovie(name) {
             const ls = document.getElementById('loading-screen');
-            const status = document.getElementById('load-status');
-            
-            ls.style.display = "flex";
-            setTimeout(() => { ls.style.opacity = "1"; }, 100);
+            const txt = document.getElementById('status-text');
+            ls.style.display = 'flex';
+            setTimeout(() => ls.style.opacity = "1", 50);
 
-            // 5 Saniyelik Animasyonlu Yükleme Süreci
-            status.innerText = "SİNYAL ARANIYOR...";
-            
-            setTimeout(() => { status.innerText = movieName.toUpperCase() + " YÜKLENİYOR..."; }, 2500);
+            // 5 Saniyelik Animasyon Süreci
+            txt.innerText = "MULTIVERSE TARANIYOR...";
+            setTimeout(() => { txt.innerText = name.toUpperCase() + " HAZIRLANIYOR..."; }, 2500);
 
             setTimeout(() => {
                 ls.style.opacity = "0";
                 setTimeout(() => {
-                    ls.style.display = "none";
+                    ls.style.display = 'none';
                     document.getElementById('player-wrapper').style.display = 'block';
-                    const v = document.getElementById('video-player');
-                    // Buraya gerçek video linklerini ekleyebilirsin
-                    v.src = "movie_file.mp4"; 
-                    v.play();
-                }, 1000);
-            }, 5000); // Toplam 5 saniye
+                    document.getElementById('video-player').play();
+                }, 800);
+            }, 5000);
         }
 
         function closePlayer() {
-            const v = document.getElementById('video-player');
-            v.pause();
+            document.getElementById('video-player').pause();
             document.getElementById('player-wrapper').style.display = 'none';
         }
     </script>
