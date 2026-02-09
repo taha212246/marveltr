@@ -3,62 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MarvelTR | Multiverse</title>
+    <title>MarvelTR | Ultimate</title>
     <style>
-        :root { --red: #e23636; }
+        :root { --red: #e23636; --discord: #5865F2; }
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
         body, html { width: 100%; height: 100%; background: #000; color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
 
         /* HEADER */
         header {
-            display: flex; justify-content: flex-start; align-items: center;
-            padding: 15px 25px; background: #000; border-bottom: 2px solid var(--red);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 25px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--red);
             position: fixed; width: 100%; top: 0; z-index: 1000;
         }
         .logo { font-weight: 900; font-size: 24px; background: var(--red); color: white; padding: 2px 10px; text-transform: uppercase; }
+        
+        .login-btn { 
+            background: var(--discord); color: white; padding: 10px 20px; 
+            border-radius: 5px; text-decoration: none; font-weight: bold; 
+            font-size: 14px; transition: 0.3s; display: block;
+        }
+        .login-btn:hover { background: #4752c4; transform: scale(1.05); }
 
-        /* LOADING SCREEN */
+        /* ANIMASYONLU LOADING SCREEN */
         #loading-screen { 
             position: fixed; inset: 0; background: #000; z-index: 9999; 
-            display: none; flex-direction: column; align-items: center; justify-content: center; 
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.5s ease; /* Yumuşak geçiş */
         }
-        .spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .load-text { margin-top: 15px; font-weight: bold; color: var(--red); letter-spacing: 1px; }
+        #loading-screen.active { display: flex; opacity: 1; }
 
-        /* CARDS CONTAINER */
-        #portal-view { padding: 120px 15px 40px; text-align: center; height: 100vh; }
-        .multiverse-title { color: var(--red); margin-bottom: 40px; letter-spacing: 3px; font-weight: 900; }
-        
-        .card-row { display: flex; width: 100%; height: 480px; gap: 10px; max-width: 1200px; margin: 0 auto; }
+        .spinner { 
+            width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.1); 
+            border-top: 5px solid var(--red); border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .load-text { margin-top: 20px; font-weight: bold; color: var(--red); letter-spacing: 2px; text-transform: uppercase; }
+
+        /* PORTAL & CARDS */
+        #portal-view { display: none; padding: 120px 20px 40px; text-align: center; height: 100vh; }
+        .card-row { display: flex; width: 100%; height: 480px; gap: 12px; max-width: 1200px; margin: 0 auto; }
         
         .m-card { 
             flex: 1; position: relative; border-radius: 15px; border: 2px solid #222; 
-            overflow: hidden; cursor: pointer; background: #111;
-            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            overflow: hidden; cursor: pointer; transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        
-        /* RESİM AYARI - CSS Background yerine IMG kullanıyoruz (Daha güvenli) */
-        .m-card img {
-            width: 100%; height: 100%; object-fit: cover;
-            display: block; pointer-events: none;
-            transition: 0.7s;
-        }
-        
+        .m-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.7s; }
         .m-card:hover { flex: 5; border-color: var(--red); box-shadow: 0 0 40px rgba(226, 54, 54, 0.6); }
-        .m-card:hover img { transform: scale(1.05); }
 
-        /* PLAYER */
-        #player-wrapper { position: fixed; inset: 0; background: #000; display: none; z-index: 10000; }
+        /* VIDEO PLAYER */
+        #player-wrapper { position: fixed; inset: 0; background: #000; display: none; z-index: 10000; opacity: 0; transition: opacity 0.5s; }
+        #player-wrapper.active { display: block; opacity: 1; }
         video { width: 100%; height: 100%; }
-        .back-btn { position: absolute; top: 25px; left: 25px; background: var(--red); color: white; padding: 12px 20px; cursor: pointer; font-weight: bold; border-radius: 5px; z-index: 10001; }
+        .back-btn { 
+            position: absolute; top: 25px; left: 25px; background: var(--red); 
+            color: white; padding: 12px 25px; cursor: pointer; font-weight: bold; 
+            border-radius: 5px; z-index: 10001; text-transform: uppercase;
+        }
+
+        #main-view { margin-top: 150px; text-align: center; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">MARVELTR</div>
+        <a id="discord-btn" href="https://discord.com/oauth2/authorize?client_id=1460010089988489328&response_type=code&redirect_uri=https%3A%2F%2Ftaha212246.github.io%2Fmarveltr&scope=identify+guilds.join" class="login-btn">Discord İle Giriş Yap</a>
     </header>
+
+    <div id="main-view">
+        <h1 style="letter-spacing: 2px;">MULTIVERSE ERİŞİMİ İÇİN GİRİŞ YAPIN</h1>
+        <p style="margin-top: 20px; color: #888;">Erişim sağlamak için Discord hesabınızı bağlamanız gerekmektedir.</p>
+    </div>
 
     <div id="loading-screen">
         <div class="spinner"></div>
@@ -66,41 +82,57 @@
     </div>
 
     <div id="portal-view">
-        <h2 class="multiverse-title">MULTIVERSE AKTİF</h2>
+        <h2 style="color:var(--red); margin-bottom:40px; letter-spacing: 5px;">MULTIVERSE AKTİF</h2>
         <div class="card-row">
-            <div class="m-card" onclick="openFilm('loki.mp4')"><img src="1.png?v=1" alt="Loki"></div>
-            <div class="m-card" onclick="openFilm('strange.mp4')"><img src="2.png?v=1" alt="Doctor Strange"></div>
-            <div class="m-card" onclick="openFilm('avengers.mp4')"><img src="3.png?v=1" alt="Avengers"></div>
-            <div class="m-card" onclick="openFilm('guardians.mp4')"><img src="4.png?v=1" alt="Guardians"></div>
-            <div class="m-card" onclick="openFilm('deadpool.mp4')"><img src="5.png?v=1" alt="Deadpool"></div>
+            <div class="m-card" onclick="startMultiverse('loki.mp4')"><img src="1.png" alt="Loki"></div>
+            <div class="m-card" onclick="startMultiverse('strange.mp4')"><img src="2.png" alt="Strange"></div>
+            <div class="m-card" onclick="startMultiverse('avengers.mp4')"><img src="3.png" alt="Avengers"></div>
+            <div class="m-card" onclick="startMultiverse('guardians.mp4')"><img src="4.png" alt="Guardians"></div>
+            <div class="m-card" onclick="startMultiverse('deadpool.mp4')"><img src="5.png" alt="Deadpool"></div>
         </div>
     </div>
 
     <div id="player-wrapper">
-        <div class="back-btn" onclick="closeFilm()">← GERİ DÖN</div>
-        <video id="main-v" controls playsinline></video>
+        <div class="back-btn" onclick="stopMultiverse()">← GERİ DÖN</div>
+        <video id="multiverse-video" controls playsinline></video>
     </div>
 
     <script>
-        function openFilm(src) {
+        // Sayfa Kontrolü (Giriş Yapıldı mı?)
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('code')) {
+                document.getElementById('main-view').style.display = 'none';
+                document.getElementById('discord-btn').style.display = 'none'; // Butonu gizle
+                document.getElementById('portal-view').style.display = 'block';
+            }
+        };
+
+        function startMultiverse(file) {
             const ls = document.getElementById('loading-screen');
             ls.style.display = 'flex';
-            
-            // 5 Saniye Sabit Bekleme
+            setTimeout(() => { ls.classList.add('active'); }, 10); // Fade-in
+
+            // 5 Saniye Sonra Videoyu Aç
             setTimeout(() => {
-                ls.style.display = 'none';
-                const wrap = document.getElementById('player-wrapper');
-                const v = document.getElementById('main-v');
-                wrap.style.display = 'block';
-                v.src = src;
+                ls.classList.remove('active');
+                setTimeout(() => { ls.style.display = 'none'; }, 500); // Fade-out sonrası gizle
+                
+                const player = document.getElementById('player-wrapper');
+                const v = document.getElementById('multiverse-video');
+                player.style.display = 'block';
+                setTimeout(() => { player.classList.add('active'); }, 10);
+                v.src = file;
                 v.play();
             }, 5000);
         }
 
-        function closeFilm() {
-            const v = document.getElementById('main-v');
+        function stopMultiverse() {
+            const player = document.getElementById('player-wrapper');
+            const v = document.getElementById('multiverse-video');
+            player.classList.remove('active');
             v.pause();
-            document.getElementById('player-wrapper').style.display = 'none';
+            setTimeout(() => { player.style.display = 'none'; }, 500);
         }
     </script>
 </body>
