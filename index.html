@@ -20,7 +20,7 @@
         .logo { font-family: 'Oswald', sans-serif; font-size: 2rem; color: white; background: var(--marvel-red); padding: 0 10px; text-transform: uppercase; text-decoration: none; }
         .login-btn { background: transparent; border: 1px solid var(--accent-blue); color: var(--accent-blue); padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase; text-decoration: none; transition: 0.3s; }
 
-        /* --- ANA SAYFA --- */
+        /* --- ANA SAYFA (GİRİŞ ÖNCESİ) --- */
         #main-view { margin-top: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px; }
         .player-wrapper { width: 100%; max-width: 800px; aspect-ratio: 16 / 9; background: #000; border: 1px solid #333; border-radius: 10px; box-shadow: 0 0 30px rgba(226, 54, 54, 0.2); }
         iframe { width: 100%; height: 100%; border-radius: 10px; }
@@ -35,16 +35,17 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .load-text { font-family: 'Oswald'; font-size: 1.5rem; letter-spacing: 5px; color: var(--marvel-red); text-transform: uppercase; }
 
-        /* --- PORTAL (DİKEY KARTLAR) --- */
+        /* --- PORTAL (ÇALIŞAN DİKEY KARTLAR) --- */
         #portal-view { display: none; padding: 110px 15px 30px; min-height: 100vh; background: #050505; text-align: center; }
         .card-row { display: flex; width: 100%; height: 500px; gap: 10px; max-width: 1100px; margin: 0 auto; }
         .m-card { 
             flex: 1; border-radius: 15px; border: 1px solid #333; cursor: pointer;
-            background-size: cover; background-position: center; transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            background-color: #111; background-size: cover; background-position: center; 
+            transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .m-card:hover { flex: 4; border-color: var(--marvel-red); box-shadow: 0 0 30px var(--marvel-red); }
         
-        /* DOSYA YAPINA GÖRE GÖRSELLER (SS: 1000295388.jpg) */
+        /* ÇALIŞAN YEREL GÖRSELLERİN */
         #c1 { background-image: url('1.png'); }
         #c2 { background-image: url('2.png'); }
         #c3 { background-image: url('3.png'); }
@@ -96,10 +97,10 @@
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('code')) {
-                // Giriş başarılı: İlk ekranı kapat, butonu tamamen sil
+                // Giriş başarılı: İlk ekranı kapat, butonun olduğu nav kısmını temizle
                 document.getElementById('main-view').style.display = 'none';
                 const btn = document.getElementById('nav-login-btn');
-                if(btn) btn.remove(); 
+                if(btn) btn.remove(); // Giriş butonu tamamen silindi
                 document.getElementById('portal-view').style.display = 'block';
             }
         };
@@ -125,7 +126,7 @@
                     document.getElementById('player-wrapper').style.display = 'block';
                     document.getElementById('video-player').play();
                 }, 800);
-            }, 5000); // Toplam 5 saniye
+            }, 5000); // 5 Saniye tam süre
         }
 
         function closePlayer() {
