@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MarvelTR Premium</title>
     <style>
-        :root { --red: #e23636; --dark: #0a0a0a; }
+        :root { --red: #e23636; }
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
-        body, html { width: 100%; height: 100%; background: #000; color: white; font-family: sans-serif; overflow-x: hidden; }
+        body, html { width: 100%; height: 100%; background: #000; color: white; font-family: sans-serif; overflow: hidden; }
 
         /* --- NAVİGASYON --- */
         nav {
@@ -17,13 +17,13 @@
             width: 100%; top: 0; z-index: 1000;
         }
         .logo { font-weight: 900; font-size: 24px; color: white; background: var(--red); padding: 0 10px; text-transform: uppercase; }
-        .login-btn { background: transparent; border: 1px solid #00d2ff; color: #00d2ff; padding: 8px 15px; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .login-btn { background: transparent; border: 1px solid #00d2ff; color: #00d2ff; padding: 8px 15px; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; }
 
-        /* --- ANA SAYFA (VİDEOLU) --- */
-        #main-view { margin-top: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px; }
-        .hero-video { width: 100%; max-width: 800px; aspect-ratio: 16 / 9; border: 1px solid #333; border-radius: 10px; }
+        /* --- ANA SAYFA --- */
+        #main-view { margin-top: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .hero { width: 90%; max-width: 800px; aspect-ratio: 16/9; border: 1px solid #333; border-radius: 10px; }
 
-        /* --- YÜKLENİYOR EKRANI --- */
+        /* --- YÜKLENİYOR (5 SANİYE) --- */
         #loading-screen { 
             position: fixed; inset: 0; background: #000; z-index: 9999; 
             display: none; flex-direction: column; align-items: center; justify-content: center; 
@@ -34,21 +34,20 @@
             animation: spin 1s linear infinite; margin-bottom: 15px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .load-text { font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: var(--red); }
+        .load-text { font-weight: bold; letter-spacing: 2px; color: var(--red); }
 
-        /* --- PORTAL VE RESİMLER --- */
-        #portal-view { display: none; padding: 100px 20px 40px; text-align: center; }
-        .card-row { display: flex; width: 100%; height: 400px; gap: 10px; max-width: 1000px; margin: 0 auto; }
+        /* --- PORTAL (RESİMLER) --- */
+        #portal-view { display: none; padding: 100px 20px; text-align: center; height: 100vh; }
+        .card-row { display: flex; width: 100%; height: 450px; gap: 10px; max-width: 1100px; margin: 0 auto; }
         
         .m-card { 
-            flex: 1; border-radius: 12px; border: 1px solid #222; cursor: pointer;
-            background-color: #111;
-            background-size: cover; background-position: center;
+            flex: 1; border-radius: 15px; border: 1px solid #222; cursor: pointer;
+            background-color: #111; background-size: cover; background-position: center;
             transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .m-card:hover { flex: 4; border-color: var(--red); }
+        .m-card:hover { flex: 4; border-color: var(--red); box-shadow: 0 0 30px rgba(226, 54, 54, 0.5); }
 
-        /* RESİM YOLLARI (Dosya isimlerinle birebir aynı olmalı) */
+        /* DOSYA İSİMLERİ (ÖNEMLİ: GitHub'da isimler neyse o olmalı) */
         #c1 { background-image: url('1.png'); }
         #c2 { background-image: url('2.png'); }
         #c3 { background-image: url('3.png'); }
@@ -58,7 +57,7 @@
         /* --- PLAYER --- */
         #player-wrapper { position: fixed; inset: 0; background: #000; display: none; z-index: 10000; }
         video { width: 100%; height: 100%; }
-        .exit-btn { position: absolute; top: 20px; left: 20px; color: white; background: var(--red); padding: 10px; cursor: pointer; font-weight: bold; z-index: 10001; }
+        .exit { position: absolute; top: 20px; left: 20px; background: var(--red); padding: 10px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -69,8 +68,8 @@
     </nav>
 
     <div id="main-view">
-        <iframe class="hero-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-        <h2 style="margin-top:20px;">GİRİŞ YAPMANIZ BEKLENİYOR</h2>
+        <iframe class="hero" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"></iframe>
+        <h2 style="margin-top:20px;">ERİŞİM İÇİN GİRİŞ YAPIN</h2>
     </div>
 
     <div id="loading-screen">
@@ -79,50 +78,41 @@
     </div>
 
     <div id="portal-view">
-        <h1 style="margin-bottom:20px; color:var(--red);">MULTIVERSE AKTİF</h1>
         <div class="card-row">
-            <div class="m-card" id="c1" onclick="startFlow('loki.mp4')"></div>
-            <div class="m-card" id="c2" onclick="startFlow('dr.mp4')"></div>
-            <div class="m-card" id="c3" onclick="startFlow('avengers.mp4')"></div>
-            <div class="m-card" id="c4" onclick="startFlow('gotg.mp4')"></div>
-            <div class="m-card" id="c5" onclick="startFlow('dp.mp4')"></div>
+            <div class="m-card" id="c1" onclick="play('loki.mp4')"></div>
+            <div class="m-card" id="c2" onclick="play('dr.mp4')"></div>
+            <div class="m-card" id="c3" onclick="play('avengers.mp4')"></div>
+            <div class="m-card" id="c4" onclick="play('gotg.mp4')"></div>
+            <div class="m-card" id="c5" onclick="play('deadpool.mp4')"></div>
         </div>
     </div>
 
     <div id="player-wrapper">
-        <div class="exit-btn" onclick="exit()">← GERİ</div>
-        <video id="v" controls playsinline></video>
+        <div class="exit" onclick="document.getElementById('player-wrapper').style.display='none'; document.getElementById('v').pause();">GERİ</div>
+        <video id="v" controls></video>
     </div>
 
     <script>
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('code')) {
-                document.getElementById('main-view').style.display = 'none';
-                const btn = document.getElementById('nav-login-btn');
-                if(btn) btn.remove(); // Giriş başarılıysa butonu tamamen sil
-                document.getElementById('portal-view').style.display = 'block';
-            }
-        };
-
-        function startFlow(src) {
-            const ls = document.getElementById('loading-screen');
-            ls.style.display = "flex";
-            
-            // Tam 5 saniye bekleme
-            setTimeout(() => {
-                ls.style.display = "none";
-                document.getElementById('player-wrapper').style.display = 'block';
-                const v = document.getElementById('v');
-                v.src = src;
-                v.play();
-            }, 5000);
+        // Giriş Kontrolü ve Buton Silme
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('code')) {
+            document.getElementById('main-view').style.display = 'none';
+            document.getElementById('portal-view').style.display = 'block';
+            const btn = document.getElementById('nav-login-btn');
+            if(btn) btn.remove(); // Butonu tamamen yok eder
         }
 
-        function exit() {
-            const v = document.getElementById('v');
-            v.pause(); v.src = "";
-            document.getElementById('player-wrapper').style.display = 'none';
+        function play(src) {
+            const ls = document.getElementById('loading-screen');
+            ls.style.display = 'flex';
+            // Tam 5 saniye animasyon
+            setTimeout(() => {
+                ls.style.display = 'none';
+                document.getElementById('player-wrapper').style.display = 'block';
+                const video = document.getElementById('v');
+                video.src = src;
+                video.play();
+            }, 5000);
         }
     </script>
 </body>
