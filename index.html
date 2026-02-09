@@ -1,33 +1,67 @@
-<div id="login-overlay">
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvel Türkiye | Giriş</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 { color: #e62429; text-transform: uppercase; letter-spacing: 2px; }
+        .discord-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #5865F2;
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .discord-btn:hover { background-color: #4752c4; }
+        .discord-btn img { width: 24px; margin-right: 10px; }
+    </style>
+</head>
+<body>
+
     <div class="login-card">
-        <h2 style="font-family: 'Oswald'; letter-spacing: 2px;">SİSTEME ERİŞİM</h2>
-        <p style="color: #888; font-size: 0.9rem;">MarvelTR Multiverse sistemine bağlanmak için protokolü onayla.</p>
+        <h1>MARVEL TR</h1>
+        <p>Sisteme erişmek için kimliğini doğrula.</p>
         
-        <a href="https://discord.com/oauth2/authorize?client_id=1460010089988489328&response_type=code&redirect_uri=https%3A%2F%2Ftaha212246.github.io%2Fmarveltr%2F.&scope=identify+guilds.join" class="discord-auth-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" width="24" alt="Discord">
-            PROTOKOLÜ ONAYLA (Giriş Yap)
+        <a href="https://discord.com/oauth2/authorize?client_id=1460010089988489328&response_type=code&redirect_uri=https%3A%2F%2Ftaha212246.github.io%2Fmarveltr%2F&scope=identify+guilds.join" class="discord-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
+            SİSTEME SIZ
         </a>
-        
-        <br>
-        <a href="javascript:void(0)" onclick="toggleLogin()" style="color: #555; text-decoration: none; font-size: 0.8rem; margin-top: 15px; display: inline-block;">Geri Dön</a>
     </div>
-</div>
 
-<script>
-    // Giriş yapıldıktan sonra (Discord'dan dönünce) kullanıcı ismini göstermek için küçük bir simülasyon
-    // Normalde burada Backend (Node.js/PHP) gerekir ama görüntüyü böyle düzeltebilirsin
-    function toggleLogin() {
-        const overlay = document.getElementById('login-overlay');
-        overlay.style.display = (overlay.style.display === 'flex') ? 'none' : 'flex';
-    }
-
-    // Eğer URL'de Discord'dan gelen bir kod varsa butonu "Giriş Yapıldı" olarak değiştirir
-    window.onload = function() {
+    <script>
+        // Giriş başarılıysa ekranı değiştir
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('code')) {
-            document.querySelector('.login-btn').innerHTML = "ERİŞİM SAĞLANDI ✓";
-            document.querySelector('.login-btn').style.borderColor = "#2ecc71";
-            document.querySelector('.login-btn').style.color = "#2ecc71";
+            document.querySelector('h1').innerText = "ERİŞİM ONAYLANDI";
+            document.querySelector('p').innerText = "Multiverse portalı açıldı.";
+            document.querySelector('.discord-btn').style.display = 'none';
         }
-    }
-</script>
+    </script>
+</body>
+</html>
