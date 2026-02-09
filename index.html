@@ -7,9 +7,9 @@
     <style>
         :root { --red: #e23636; }
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
-        body, html { width: 100%; height: 100%; background: #000; color: white; font-family: sans-serif; overflow-x: hidden; }
+        body, html { width: 100%; height: 100%; background: #000; color: white; font-family: sans-serif; overflow: hidden; }
 
-        /* NAV */
+        /* NAV - GİRİŞ SONRASI TEMİZLENECEK */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 25px; background: rgba(0, 0, 0, 0.95);
@@ -17,8 +17,9 @@
             width: 100%; top: 0; z-index: 1000;
         }
         .logo { font-weight: 900; font-size: 24px; color: white; background: var(--red); padding: 2px 10px; text-transform: uppercase; }
+        .login-btn { background: #5865F2; color: white; padding: 10px 18px; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; font-size: 14px; border: none; }
 
-        /* LOADING */
+        /* LOADING (Sadece Yükleniyor...) */
         #loading-screen { 
             position: fixed; inset: 0; background: #000; z-index: 9999; 
             display: none; flex-direction: column; align-items: center; justify-content: center; 
@@ -28,27 +29,96 @@
         .load-text { margin-top: 15px; font-weight: bold; color: var(--red); }
 
         /* PORTAL & DİKEY KARTLAR */
-        #portal-view { display: none; padding: 120px 10px 40px; text-align: center; }
-        .card-row { 
-            display: flex; width: 100%; height: 480px; gap: 8px; 
-            max-width: 1200px; margin: 0 auto; padding: 0 10px;
-        }
+        #portal-view { display: none; padding: 120px 20px 40px; text-align: center; }
+        .card-row { display: flex; width: 100%; height: 480px; gap: 10px; max-width: 1100px; margin: 0 auto; }
         
         .m-card { 
-            flex: 1; position: relative; border-radius: 15px; border: 1px solid #333; 
-            overflow: hidden; cursor: pointer; background: #111;
+            flex: 1; border-radius: 15px; border: 1px solid #333; cursor: pointer;
+            background-color: #111; 
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
             transition: 0.7s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        
-        /* Görselin Kartı Kaplaması İçin Kesin Ayar */
-        .m-card img {
-            width: 100%; height: 100%; object-fit: cover;
-            pointer-events: none; display: block;
-        }
-        
         .m-card:hover { flex: 5; border-color: var(--red); box-shadow: 0 0 30px rgba(226, 54, 54, 0.5); }
+
+        /* GÖRSEL YOLLARI - KLASÖR YAPINA GÖRE SABİTLENDİ */
+        #c1 { background-image: url('1.png'); }
+        #c2 { background-image: url('2.png'); }
+        #c3 { background-image: url('3.png'); }
+        #c4 { background-image: url('4.png'); }
+        #c5 { background-image: url('5.png'); }
 
         /* PLAYER */
         #player-wrapper { position: fixed; inset: 0; background: #000; display: none; z-index: 10000; }
         video { width: 100%; height: 100%; }
-        .back-btn
+        .back-btn { position: absolute; top: 25px; left: 25px; background: var(--red); color: white; padding: 12px 20px; cursor: pointer; font-weight: bold; border-radius: 5px; z-index: 10001; }
+
+        #main-view { margin-top: 120px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo">MARVELTR</div>
+        <a id="nav-login-btn" href="https://discord.com/oauth2/authorize?client_id=1460010089988489328&response_type=code&redirect_uri=https%3A%2F%2Ftaha212246.github.io%2Fmarveltr&scope=identify+guilds.join" class="login-btn">Discord İle Giriş Yap</a>
+    </nav>
+
+    <div id="main-view">
+        <iframe width="90%" height="400" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" style="border-radius:15px;"></iframe>
+        <h1 style="margin-top:20px;">GİRİŞ YAPIN</h1>
+    </div>
+
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <div class="load-text">Yükleniyor...</div>
+    </div>
+
+    <div id="portal-view">
+        <h2 style="color:var(--red); margin-bottom:30px;">MULTIVERSE AKTİF</h2>
+        <div class="card-row">
+            <div class="m-card" id="c1" onclick="play('loki.mp4')"></div>
+            <div class="m-card" id="c2" onclick="play('strange.mp4')"></div>
+            <div class="m-card" id="c3" onclick="play('avengers.mp4')"></div>
+            <div class="m-card" id="c4" onclick="play('guardians.mp4')"></div>
+            <div class="m-card" id="c5" onclick="play('deadpool.mp4')"></div>
+        </div>
+    </div>
+
+    <div id="player-wrapper">
+        <div class="back-btn" onclick="closeV()">← GERİ</div>
+        <video id="v" controls></video>
+    </div>
+
+    <script>
+        // Giriş Kontrolü ve Buton Yok Etme
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('code')) {
+                document.getElementById('main-view').style.display = 'none';
+                document.getElementById('portal-view').style.display = 'block';
+                const btn = document.getElementById('nav-login-btn');
+                if(btn) btn.remove(); // Discord butonu tamamen silindi
+            }
+        };
+
+        function play(src) {
+            const ls = document.getElementById('loading-screen');
+            ls.style.display = 'flex';
+            setTimeout(() => {
+                ls.style.display = 'none';
+                document.getElementById('player-wrapper').style.display = 'block';
+                const video = document.getElementById('v');
+                video.src = src;
+                video.play();
+            }, 5000); // Tam 5 saniye
+        }
+
+        function closeV() {
+            const v = document.getElementById('v');
+            v.pause();
+            document.getElementById('player-wrapper').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
