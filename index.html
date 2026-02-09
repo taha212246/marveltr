@@ -2,126 +2,122 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marvel Türkiye | Multiverse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MARVELTR | Premium Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: #000;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+        :root { --marvel-red: #e23636; --dark-bg: #0a0a0a; --accent-blue: #00d2ff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background-color: var(--dark-bg); font-family: 'Roboto', sans-serif; color: white; overflow-x: hidden; }
+
+        /* --- NAVİGASYON --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 50px; background: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid var(--marvel-red); position: fixed;
+            width: 100%; top: 0; z-index: 1000;
         }
+        .logo { font-family: 'Oswald', sans-serif; font-size: 2rem; color: white; background: var(--marvel-red); padding: 0 10px; text-transform: uppercase; text-decoration: none; }
+        .login-btn { background: transparent; border: 1px solid var(--accent-blue); color: var(--accent-blue); padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; text-transform: uppercase; text-decoration: none; transition: 0.3s; }
+        .login-btn:hover { background: var(--accent-blue); color: black; box-shadow: 0 0 20px var(--accent-blue); }
 
-        /* Giriş Kartı */
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100%;
-        }
+        /* --- ANA SAYFA (GİRİŞ ÖNCESİ) --- */
+        #main-view { margin-top: 120px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .player-wrapper { width: 80%; max-width: 1000px; aspect-ratio: 16 / 9; background: #000; border: 1px solid #333; border-radius: 10px; box-shadow: 0 0 50px rgba(226, 54, 54, 0.2); }
+        iframe { width: 100%; height: 100%; border-radius: 10px; }
 
-        .card {
-            background: rgba(20, 20, 20, 0.9);
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            border: 2px solid #e62429;
-            box-shadow: 0 0 20px #e62429;
-        }
+        /* --- YÜKLENİYOR (SİNEMATİK) --- */
+        #loading-screen { position: fixed; inset: 0; background: #000; z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { width: 60px; height: 60px; border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid var(--marvel-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .load-text { font-weight: 900; letter-spacing: 5px; text-transform: uppercase; color: var(--marvel-red); }
 
-        h1 { color: #e62429; text-transform: uppercase; letter-spacing: 3px; }
-
-        .btn {
-            background: #5865F2;
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-
-        /* Film Bölümü (Girişten Sonra) */
-        #movie-portal { display: none; padding: 20px; width: 100%; max-width: 1200px; }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .movie-card {
+        /* --- FİLM PORTALI (GİRİŞ SONRASI) --- */
+        #portal-view { display: none; padding: 120px 30px 30px; height: 100vh; background: #050505; text-align: center; }
+        .card-row { display: flex; width: 100%; height: 450px; gap: 15px; max-width: 1200px; margin: 0 auto; }
+        .m-card { 
+            flex: 1; border-radius: 15px; border: 1px solid #222; cursor: pointer;
+            background-size: cover; background-position: center; transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.5s;
-            cursor: pointer;
-            border: 1px solid #333;
         }
+        .m-card:hover { flex: 4; border-color: var(--marvel-red); box-shadow: 0 0 30px rgba(226, 54, 54, 0.4); }
+        
+        /* Kart Görselleri (İsimleri senin dosyalara göre ayarlarsın) */
+        #c1 { background-image: url('https://m.media-amazon.com/images/M/MV5BNTkwOTE1ZDYtNzg3OC00YjI3LWE1MzktNjQ5YTM1Y2M0ZGUxXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg'); }
+        #c2 { background-image: url('https://m.media-amazon.com/images/M/MV5BNWM0ZGJlMzMtZmYwMi00NzI5LWGYjMtMzkwNWliZTM1MTc3XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg'); }
+        #c3 { background-image: url('https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg'); }
+        #c4 { background-image: url('https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_.jpg'); }
 
-        .movie-card:hover {
-            transform: scale(1.05);
-            border-color: #e62429;
-            box-shadow: 0 0 15px #e62429;
-        }
-
-        .movie-card img { width: 100%; display: block; }
-
-        .movie-info {
-            position: absolute;
-            bottom: 0;
-            background: rgba(230, 36, 41, 0.9);
-            width: 100%;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
+        /* --- VİDEO PLAYER --- */
+        #player-wrapper { position: fixed; inset: 0; background: #000; display: none; z-index: 6000; }
+        video { width: 100%; height: 100%; }
+        .exit-btn { position: absolute; top: 20px; left: 20px; color: white; background: var(--marvel-red); padding: 10px; cursor: pointer; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="login-screen" class="login-container">
-        <div class="card">
-            <h1>MARVEL TR</h1>
-            <p>Multiverse portalına erişmek için giriş yapın.</p>
-            <a href="https://discord.com/oauth2/authorize?client_id=1460010089988489328&response_type=code&redirect_uri=https%3A%2F%2Ftaha212246.github.io%2Fmarveltr&scope=identify+guilds.join" class="btn">DISCORD İLE SIZ</a>
+    <nav>
+        <a href="#" class="logo">MARVELTR</a>
+        <a href="https://discord.com/oauth2/authorize?client_id=1460010089988489328&response_type=code&redirect_uri=https%3A%2F%2Ftaha212246.github.io%2Fmarveltr&scope=identify+guilds.join" class="login-btn">Sisteme Sız</a>
+    </nav>
+
+    <div id="main-view">
+        <div class="player-wrapper">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <h2 style="margin-top:20px; font-family:'Oswald';">MARVEL MULTIVERSE PORTAL</h2>
+    </div>
+
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <div class="load-text">Multiverse Yükleniyor...</div>
+    </div>
+
+    <div id="portal-view">
+        <h1 style="font-family:'Oswald'; color:var(--marvel-red); margin-bottom:30px;">PREMIUM MULTIVERSE EKRANI</h1>
+        <div class="card-row">
+            <div class="m-card" id="c1" onclick="watchMovie('loki.mp4')"></div>
+            <div class="m-card" id="c2" onclick="watchMovie('dr_strange.mp4')"></div>
+            <div class="m-card" id="c3" onclick="watchMovie('avengers.mp4')"></div>
+            <div class="m-card" id="c4" onclick="watchMovie('gotg.mp4')"></div>
         </div>
     </div>
 
-    <div id="movie-portal">
-        <h1 style="text-align:center;">MARVEL MULTIVERSE SEÇ</h1>
-        <div class="grid">
-            <div class="movie-card">
-                <img src="https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg" alt="Avengers">
-                <div class="movie-info">AVENGERS: ENDGAME</div>
-            </div>
-            <div class="movie-card">
-                <img src="https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_.jpg" alt="Infinity War">
-                <div class="movie-info">INFINITY WAR</div>
-            </div>
-            <div class="movie-card">
-                <img src="https://m.media-amazon.com/images/M/MV5BODcwNWE3OTItMDc3MS00NDFjLWE1OTAtNDU3Njg4NDBkM2VkXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" alt="Spider-Man">
-                <div class="movie-info">NO WAY HOME</div>
-            </div>
-        </div>
+    <div id="player-wrapper">
+        <div class="exit-btn" onclick="closePlayer()">← GERİ DÖN</div>
+        <video id="video-player" controls playsinline></video>
     </div>
 
     <script>
-        // Giriş yapıldıysa URL'deki 'code' parametresini kontrol et
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('code')) {
-            // Giriş başarılı: Login ekranını gizle, Film portalını göster
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('movie-portal').style.display = 'block';
-            document.body.style.background = "#050505";
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            // Eğer Discord'dan giriş yapıp döndüyse
+            if (urlParams.has('code')) {
+                document.getElementById('main-view').style.display = 'none';
+                document.querySelector('.login-btn').innerText = "ERİŞİM BAŞARILI";
+                document.querySelector('.login-btn').style.borderColor = "#2ecc71";
+                document.getElementById('portal-view').style.display = 'block';
+            }
+        };
+
+        function watchMovie(src) {
+            const ls = document.getElementById('loading-screen');
+            ls.style.display = "flex";
+            
+            // 3 saniye yükleniyor animasyonu göster
+            setTimeout(() => {
+                ls.style.display = "none";
+                document.getElementById('player-wrapper').style.display = 'block';
+                const v = document.getElementById('video-player');
+                v.src = src;
+                v.play();
+            }, 3000);
+        }
+
+        function closePlayer() {
+            const v = document.getElementById('video-player');
+            v.pause();
+            document.getElementById('player-wrapper').style.display = 'none';
         }
     </script>
 </body>
